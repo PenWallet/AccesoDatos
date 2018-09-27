@@ -139,7 +139,7 @@ GO
 	Procedimiento usado para generar un boleto con n apuestas sencillas, con números generados aleatoriamente
 	Entradas:
 		Int n, la cantidad de apuestas sencillas del boleto
-		Int IDSorteo
+		Int IDSorteo, la ID del Sorteo
 	Salida: Ninguna
 	Requisitos: Solo puede haber 8 apuestas sencillas por boleto
 */
@@ -191,7 +191,6 @@ AS
 GO
 
 /*
-	
 	Descripcion: Procedimiento que genere n boletos con sus apuestas sencillas
 	Entradas:  El sorteo y los boletos que queremos insertar
 	Salidas: Ninguna
@@ -200,66 +199,114 @@ GO
 CREATE PROCEDURE GrabaMuchasSencillas (@Id_Sorteo int, @nveces int)
 AS
 	BEGIN
-	--Declaramos e inicializamos las variables oportunas
-	DECLARE @RANDOM_REINTEGRO INT
-	DECLARE @CONT INT
-	SET @CONT = 0
-	DECLARE @N1 int 
-	DECLARE @N2 int 
-	DECLARE @N3 int 
-	DECLARE @N4 int 
-	DECLARE @N5 int 
-	DECLARE @N6 int
-	DECLARE @COMPLEMENTARIO INT 
------------------------------------------------------------------------
-
-		--Mientras el contador quiera...TRACATRÁÁÁ!!
-		WHILE (@Cont != @nveces)
+		DECLARE @Cont int = 0
+		WHILE @Cont < @nveces
 		BEGIN
-			
-			--Hacemos una random para conseguir los numeros
-			SET @N1 = ROUND((48 * RAND() + 1), 0)
-			SET @N2  = ROUND((48 * RAND() + 1), 0)
-			SET @N3  = ROUND((48 * RAND() + 1), 0)
-			SET @N4  = ROUND((48 * RAND() + 1), 0)
-			SET @N5  = ROUND((48 * RAND() + 1), 0)
-			SET @N6  = ROUND((48 * RAND() + 1), 0)
-			SET @Complementario = ROUND((48 * RAND() + 1), 0)
-
------------------------------------------------------------------------
-			--Validamos que los numeros del boleto no sean iguales, ni el complementario
-			WHILE @N2 = @N1
-				SET @N2 = ROUND((48 * RAND() + 1), 0)
-
-			WHILE @N3 IN (@N2, @N1)
-				SET @N3 = ROUND((48 * RAND() + 1), 0)
-
-			WHILE @N4 IN (@N3, @N2, @N1)
-				SET @N4 = ROUND((48 * RAND() + 1), 0)
-
-			WHILE @N5 IN (@N4, @N3, @N2, @N1)
-				SET @N5 = ROUND((48 * RAND() + 1), 0)
-
-			WHILE @N6 IN (@N5, @N4, @N3, @N2, @N1)
-				SET @N6 = ROUND((48 * RAND() + 1), 0)
-
-			WHILE @Complementario IN (@N6, @N5, @N4, @N3, @N2, @N1)
-				SET @Complementario = ROUND((48 * RAND() + 1), 0)
------------------------------------------------------------------------
-			--Sacamos un reintregro para el boleto a insertar
-			SELECT @RANDOM_REINTEGRO = ROUND(((8) * RAND() + 1), 0)
------------------------------------------------------------------------
-				--Insertamos los valores obtenidos enlas validaciones anteriores
-				INSERT INTO BOLETO(FECHA_HORA,GANADO_TOTAL,ID_SORTEO,IMPORTE_TOTAL,REINTEGRO) 
-				VALUES (GETDATE(),NULL,@Id_Sorteo,1,@RANDOM_REINTEGRO)
-
-				INSERT INTO APUESTA_SIMPLE(COMPLEMENTARIO,ID_BOLETO,N1,N2,N3,N4,N5,N6)
-				VALUES (@COMPLEMENTARIO,@@IDENTITY,@N1,@N2,@N3,@N4,@N5,@N6)
------------------------------------------------------------------------
-
-		--Sumamos al contador para salir del bucle cuando se acaben el numero de veces
-		SET @CONT = @CONT + 1
+			EXEC GrabaSencillaAleatoria 1, @Id_Sorteo
+		END
 	END
+GO
+
+/*
+	Procedimiento que crea un boleto nuevo y graba una apuesta multiple en ella
+	Entradas: id_sorteo, y entre 5 y 11 numeros
+	Salidas: no hay.
+
+*/
+GO
+CREATE PROCEDURE GrabaMultiple (@Id_Sorteo tinyint, @n1 smallint,@n2 smallint,@n3 smallint,@n4 smallint,@n5 smallint
+								,@n6 smallint = NULL,@n7 smallint = NULL,@n8 smallint = NULL,@n9 smallint = NULL
+								,@n10 smallint = NULL,@n11 smallint = NULL)
+AS
+BEGIN
+
+	--Comprobar que los numeros no estan repetidos
+	IF @n1 IN (@n2, @n3, @n4, @n5, @n6, @n7, @n8, @n9, @n10, @n11) OR @n2 IN (@n1, @n3, @n4, @n5, @n6, @n7, @n8, @n9, @n10, @n11) OR
+	   @n3 IN (@n1, @n2, @n4, @n5, @n6, @n7, @n8, @n9, @n10, @n11) OR @n4 IN (@n1, @n2, @n3, @n5, @n6, @n7, @n8, @n9, @n10, @n11) OR
+	   @n5 IN (@n1, @n2, @n3, @n4, @n6, @n7, @n8, @n9, @n10, @n11) OR @n6 IN (@n1, @n2, @n3, @n4, @n5, @n7, @n8, @n9, @n10, @n11) OR
+	   @n7 IN (@n1, @n2, @n3, @n4, @n5, @n6, @n8, @n9, @n10, @n11) OR @n8 IN (@n1, @n2, @n3, @n4, @n5, @n6, @n7, @n9, @n10, @n11) OR
+	   @n9 IN (@n1, @n2, @n3, @n4, @n5, @n6, @n7, @n8, @n10, @n11) OR @n10 IN (@n1, @n2, @n3, @n4, @n5, @n6, @n7, @n8, @n9, @n11) OR
+	   @n11 IN (@n1, @n2, @n3, @n4, @n5, @n6, @n7, @n8, @n9, @n10)
+
+			PRINT 'No puedes introducir numeros iguales'
+
+	--Si no hay numeros repetidos empezamos la ejecucion
+	ELSE
+		BEGIN
+			--Contar cantidad de numeros introducidos
+			DECLARE @numeros tinyint = 5
+
+			IF @n6 IS NOT NULL
+				SET @numeros = @numeros + 1
+			IF @n7 IS NOT NULL
+				SET @numeros = @numeros + 1
+			IF @n8 IS NOT NULL
+				SET @numeros = @numeros + 1
+			IF @n9 IS NOT NULL
+				SET @numeros = @numeros + 1
+			IF @n10 IS NOT NULL
+				SET @numeros = @numeros + 1
+			IF @n11 IS NOT NULL
+				SET @numeros = @numeros + 1
+
+			--Comprobar si ha introducido 6 numeros
+			IF @numeros=6
+				PRINT 'No puede introducir 6 numeros'
+
+			--si no se han introducido 6 numeros ejecutamos
+			ELSE
+				BEGIN
+				--Ahora vamos a introducir el boleto de la apuesta
+
+					--Calcular importe boleto
+					DECLARE @importe money
+
+					IF @numeros=5
+						SET @importe = 44
+					IF @numeros=7
+						SET @importe = 7
+					IF @numeros=8
+						SET @importe = 28
+					IF @numeros=9
+						SET @importe = 84
+					IF @numeros=10
+						SET @importe = 210
+					IF @numeros=11
+						SET @importe = 462
+
+					--Generamos el reintegro de forma aleatoria
+					DECLARE @reintegro int
+					SELECT @reintegro = FLOOR(RAND()*10)
+
+
+					--Insertamos el boleto
+					INSERT INTO BOLETO
+						(ID_SORTEO, REINTEGRO, FECHA_HORA, IMPORTE_TOTAL, GANADO_TOTAL) 
+					VALUES 
+						(@Id_Sorteo, @reintegro, GETDATE(), @importe, NULL)
+
+					DECLARE @IDBoleto int = @@IDENTITY
+
+				--Procedemos a insertar la apuesta multiple
+
+					--Primero generamos aleatoriamente el complementario
+					DECLARE @complementario int
+
+					SELECT @complementario = FLOOR(RAND()*49+1)
+
+					--Validamos que no coincida el complementario con ninguno de los numeros introducidos
+					WHILE(@complementario IN (@n1,@n2,@n3,@n4,@n5,@n6,@n7,@n8,@n9,@n10,@n11))
+					BEGIN
+						SELECT @complementario = FLOOR(RAND()*49+1)
+					END
+
+					--Finalmente insertamos la apuesta multiple
+					INSERT INTO APUESTA_MULTIPLE
+						(ID_BOLETO, N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, COMPLEMENTARIO, GANADO, IMPORTE )
+					VALUES 
+						(@IDBoleto, @n1, @n2, @n3, @n4, @n5, @n6, @n7, @n8, @n9, @n10, @n11, @complementario, NULL, @importe)
+				END
+		END
 END
 GO
 
