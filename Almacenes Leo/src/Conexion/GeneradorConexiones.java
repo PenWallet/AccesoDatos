@@ -5,7 +5,7 @@ import java.sql.*;
 public class GeneradorConexiones {
 
     public static Connection getConexion() throws SQLException {
-        String url="jdbc:sqlserver://localhost;databaseName=AlmacenesLeo;user=almacenista;password=.Almacenista7;";
+        String url="jdbc:sqlserver://localhost;databaseName=AlmacenesLeo;user=almacenista;password=12345;";
         return DriverManager.getConnection(url);
     }
     public static void cerrar ( ResultSet rs ) {

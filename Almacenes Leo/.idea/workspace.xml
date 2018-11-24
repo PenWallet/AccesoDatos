@@ -12,26 +12,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Almacenes.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Almacenes.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Almacenes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="408">
+              <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GeneradorConexiones.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Conexion/GeneradorConexiones.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="104" selection-start-line="7" selection-start-column="104" selection-end-line="7" selection-end-column="104" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GestoraEnvios.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="607">
+              <caret line="183" column="15" selection-start-line="183" selection-start-column="15" selection-end-line="183" selection-end-column="15" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="method#ejecutarQuery#0;class#GestoraEnvios#0" />
+                <element signature="method#obtenerEnviosAsignados#0;class#GestoraEnvios#0" />
+                <element signature="method#validarIdAlmacen#0;class#GestoraEnvios#0" />
+                <element signature="method#agregarEnvioFormulario#0;class#GestoraEnvios#0" />
+                <element signature="method#agregarEnvio#0;class#GestoraEnvios#0" />
+                <element signature="method#mostrarAlmacenes#0;class#GestoraEnvios#0" />
+                <element signature="method#mostrarEnviosSinAsignar#0;class#GestoraEnvios#0" />
+                <element signature="method#validarIdEnvioSinAsignar#0;class#GestoraEnvios#0" />
+                <element signature="method#cabePedidoEnAlmacen#0;class#GestoraEnvios#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GestoraEnvios.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java">
+      <file leaf-file-name="GestoraMenus.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraMenus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="8" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -52,8 +75,8 @@
         <option value="$PROJECT_DIR$/src/GestoraMenus/MenuPrincipal.java" />
         <option value="$PROJECT_DIR$/src/Gestoras/GestoraMenus.java" />
         <option value="$PROJECT_DIR$/src/Conexion/GeneradorConexiones.java" />
-        <option value="$PROJECT_DIR$/src/Almacenes.java" />
         <option value="$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java" />
+        <option value="$PROJECT_DIR$/src/Almacenes.java" />
       </list>
     </option>
   </component>
@@ -238,7 +261,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -269,6 +291,7 @@
       </pane>
       <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -368,8 +391,8 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32943678" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32943678" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -378,8 +401,8 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3995749" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -393,10 +416,52 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="7" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/Almacenes.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+          <folding>
+            <element signature="method#ejecutarQuery#0;class#GestoraEnvios#0" />
+            <element signature="method#obtenerEnviosAsignados#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdAlmacen#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvioFormulario#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvio#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarAlmacenes#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarEnviosSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdEnvioSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#cabePedidoEnAlmacen#0;class#GestoraEnvios#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Almacenes.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+          <folding>
+            <element signature="method#ejecutarQuery#0;class#GestoraEnvios#0" />
+            <element signature="method#obtenerEnviosAsignados#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdAlmacen#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvioFormulario#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvio#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarAlmacenes#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarEnviosSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdEnvioSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#cabePedidoEnAlmacen#0;class#GestoraEnvios#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Conexion/GeneradorConexiones.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -408,9 +473,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="49" column="56" lean-forward="true" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -426,42 +488,55 @@
         <state relative-caret-position="238">
           <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#ejecutarQuery#0;class#GestoraEnvios#0" />
+            <element signature="method#obtenerEnviosAsignados#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdAlmacen#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvioFormulario#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvio#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarAlmacenes#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarEnviosSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdEnvioSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#cabePedidoEnAlmacen#0;class#GestoraEnvios#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Conexion/GeneradorConexiones.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        <state relative-caret-position="119">
+          <caret line="7" column="104" selection-start-line="7" selection-start-column="104" selection-end-line="7" selection-end-column="104" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraMenus.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Almacenes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="8" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Gestoras/GestoraEnvios.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="40" column="17" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
+        <state relative-caret-position="607">
+          <caret line="183" column="15" selection-start-line="183" selection-start-column="15" selection-end-line="183" selection-end-column="15" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#ejecutarQuery#0;class#GestoraEnvios#0" />
+            <element signature="method#obtenerEnviosAsignados#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdAlmacen#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvioFormulario#0;class#GestoraEnvios#0" />
+            <element signature="method#agregarEnvio#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarAlmacenes#0;class#GestoraEnvios#0" />
+            <element signature="method#mostrarEnviosSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#validarIdEnvioSinAsignar#0;class#GestoraEnvios#0" />
+            <element signature="method#cabePedidoEnAlmacen#0;class#GestoraEnvios#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Almacenes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
         </state>
       </provider>
     </entry>
