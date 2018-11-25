@@ -38,10 +38,10 @@ USE AlmacenesLeo
 GO
 INSERT INTO Almacenes (ID,Denominacion,Direccion,Capacidad)
      VALUES (1,'Nave de Manuela','C/Hierro, 27 Sevilla',400)
-	 ,(2,'PaquePluf','C/Econom�a, 30 Sevilla',250)
+	 ,(2,'PaquePluf','C/Economía, 30 Sevilla',250)
 	 ,(10,'PaquePluf','C/Serranito, 22 Huelva',450)
-	 ,(20,'Storing','C/Torremolinos, 41 M�laga',1500)
-	 ,(30,'PaquetEnteres','C/Caballa, 75 C�diz',500)
+	 ,(20,'Storing','C/Torremolinos, 41 Málaga',1500)
+	 ,(30,'PaquetEnteres','C/Caballa, 75 Cádiz',500)
 GO
 INSERT INTO Distancias (IDAlmacen1,IDAlmacen2,Distancia)
      VALUES (1,2,7)
@@ -104,3 +104,18 @@ INSERT INTO Asignaciones (IDEnvio,IDAlmacen)
      VALUES (0,1),(1,1),(2,1),(3,1),(4,10),(16,2),(17,2)
 	 ,(20,10),(24,10),(28,20),(31,30),(33,30),(36,20),(38,30)
 GO
+
+SELECT * FROM Envios
+SELECT * FROM Almacenes
+SELECT dbo.fnCabePedidoEnAlmacen(1, 2) AS ret
+
+SELECT D.disponible 
+	FROM 
+	(
+		SELECT A.ID, A.Capacidad, Sum(E.NumeroContenedores) AS Ocupado, A.Capacidad - Sum(E.NumeroContenedores) AS disponible 
+		From Almacenes AS A 
+		Inner Join Asignaciones As Ag ON A.ID = Ag.IDAlmacen
+		Inner Join Envios AS E ON Ag.IDEnvio = E.ID
+		Group By A.ID, A.Capacidad
+	) AS D
+	WHERE D.ID = 2

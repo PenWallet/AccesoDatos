@@ -2,12 +2,8 @@ package Gestoras;
 
 import Conexion.*;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -36,7 +32,7 @@ public class GestoraEnvios {
     //Mostrar Envios Asignados
 
     public void obtenerEnviosAsignados(){
-        String sentencia = "SELECT A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL";
+        String sentencia = "SELECT A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL ORDER BY FechaAsignacion";
         ResultSet rs = ejecutarQuery(sentencia);
         if(rs!=null)
         {
@@ -70,43 +66,7 @@ public class GestoraEnvios {
         return existe;
     }
 
-    public void agregarEnvioFormulario() throws SQLException{
-        Scanner sc = new Scanner(System.in);
-        Scanner sc2 = new Scanner(System.in);
-        int numCont = 0, idAlmacenPreferido;
-        char respuesta;
-        boolean idEsValida;
 
-        do{
-            System.out.println("Introduce el numero de contenedores:");
-            numCont = sc.nextInt();
-        }while(numCont <= 0);
-
-        System.out.println("Almacenes Disponibles: \n");
-        mostrarAlmacenes();
-
-        do{
-            System.out.println("Introduce el ID de tu almacén preferido: ");
-            idAlmacenPreferido = sc.nextInt();
-            idEsValida = validarIdAlmacen(idAlmacenPreferido);
-            if(!idEsValida)
-                System.out.println("Id Errónea, vuelve a intentarlo");
-        }while(!idEsValida);
-
-        do{
-            System.out.println("¿Desea agregar el envio? (y/n)");
-            respuesta = Character.toLowerCase(sc2.next().charAt(0));
-        }while(respuesta != 'y' && respuesta != 'n' );
-
-        if (respuesta == 'y'){
-            if(agregarEnvio(idAlmacenPreferido, numCont))
-                System.out.println("¡¡Envío agregado correctamente!!\n");
-            else
-                System.out.println("Envío no agregado :(\n");
-        }
-        else
-            System.out.println("Okay, pos no se agrega na\n");
-    }
 
     public boolean agregarEnvio(int idAlmacen, int nContenedores) throws SQLException
     {
@@ -150,7 +110,7 @@ public class GestoraEnvios {
     //Asignar Envios
 
     public void mostrarEnviosSinAsignar(){
-        String sql = "SELECT E.ID, E.NumeroContenedores, E.FechaCreacion, A.Denominacion FROM Envios AS E INNER JOIN Almacenes AS A ON E.AlmacenPreferido = A.ID WHERE FechaAsignacion IS NULL";
+        String sql = "SELECT E.ID, E.NumeroContenedores, E.FechaCreacion, A.Denominacion FROM Envios AS E INNER JOIN Almacenes AS A ON E.AlmacenPreferido = A.ID WHERE FechaAsignacion IS NULL ORDER BY ID";
         ResultSet rs = ejecutarQuery(sql);
         if(rs!=null)
         {
@@ -181,19 +141,85 @@ public class GestoraEnvios {
         return valido;
     }
 
-    public void
+    public ResultSet obtenerListadoAlmacenesPorDistancia(int idAlmacen) throws SQLException {
+        String sql = "SELECT * FROM Almacenes AS A INNER JOIN Distancias AS D ON A.ID = D.IDAlmacen1 AND IDAlmacen2 = "+idAlmacen+" WHERE A.ID < "+idAlmacen+" UNION SELECT * FROM Almacenes AS A INNER JOIN Distancias AS D ON D.IDAlmacen1 = "+idAlmacen+" AND A.ID = D.IDAlmacen2 WHERE A.ID > "+idAlmacen;
 
-    //Otros
+        /*PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setInt(1, idAlmacen);
+        sentencia.setInt(2, idAlmacen);
+        sentencia.setInt(3, idAlmacen);
+        sentencia.setInt(4, idAlmacen);*/
 
-    public boolean cabePedidoEnAlmacen(int idEnvio, int idAlmacen) throws SQLException{
-        boolean cabe = false;
-        String sql = "SELECT * FROM fnCabePedidoEnAlmacen(?, ?)";
+        ResultSet rs = ejecutarQuery(sql);
+
+        return rs;
+    }
+
+    public boolean asignarEnvioAlmacen(int idEnvio, int idAlmacen) throws SQLException
+    {
+        boolean asignado = false, insertValido, updateValido;
+        LocalDate date = LocalDate.now();
+        String sql = "INSERT INTO Asignaciones(IDEnvio, IDAlmacen) VALUES (?, ?)";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
+
         sentencia.setInt(1, idEnvio);
         sentencia.setInt(2, idAlmacen);
+
+        //Esto comprueba si el resultado es 1, y si sí, manda true
+        insertValido =  sentencia.executeUpdate() == 1;
+
+        sql = "UPDATE Envios SET FechaAsignacion = ? WHERE ID = ?";
+        sentencia = conexion.prepareStatement(sql);
+
+        sentencia.setDate(1, java.sql.Date.valueOf(date));
+        sentencia.setInt(2, idEnvio);
+
+        //Esto comprueba si el resultado es 1, y si sí, manda true
+        updateValido = sentencia.executeUpdate() == 1;
+
+        if (insertValido && updateValido){
+            asignado = true;
+        }else
+            asignado = false;
+
+        return asignado;
+    }
+
+    public boolean cabePedidoEnAlmacen(int idAlmacen, int idEnvio) throws SQLException{
+        boolean cabe = false;
+        String sql = "SELECT dbo.fnCabePedidoEnAlmacen(?, ?) AS ret";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+
+        sentencia.setInt(1, idAlmacen);
+        sentencia.setInt(2, idEnvio);
+
         ResultSet rs = sentencia.executeQuery();
-        cabe = rs.getBoolean(sql);
+
+        if(rs != null)
+        {
+            rs.next();
+            cabe = rs.getBoolean("ret");
+        }
+
         return cabe;
     }
+
+    public int obtenerIdAlmacenPreferido(int idEnvio) throws SQLException{
+        int idAlmacen = 0;
+
+        String sql = "SELECT AlmacenPreferido FROM Envios WHERE ID = ?";
+        PreparedStatement sentencia = conexion.prepareStatement(sql);
+        sentencia.setInt(1, idEnvio);
+        ResultSet rs = sentencia.executeQuery();
+        if(rs != null)
+        {
+            rs.next();
+            idAlmacen = rs.getInt("AlmacenPreferido");
+        }
+
+        return idAlmacen;
+    }
+
+
     
 }

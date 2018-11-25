@@ -2,19 +2,19 @@
     Nombre:
         Almacenes
 
-    Descripci�n:
-        Programa que se usar� para manejar los env�os de nuestra aplicaci�n y base de datos
+    Descripción:
+        Programa que se usará para manejar los envíos de nuestra aplicación y base de datos
 
-    Pseudoc�digo Generalizado:
+    Pseudocódigo Generalizado:
         Inicio
             Repetir
-                Mostrar men� *
+                Mostrar menú *
                 Leer opcion
                 Segun (opcion)
-                    Caso 1: Mostrar env�os asignados
-                    Caso 2: Agregar env�o
-                    Caso 3: Asignar env�os
-                Fin Seg�n
+                    Caso 1: Mostrar envíos asignados
+                    Caso 2: Agregar envío
+                    Caso 3: Asignar envíos
+                Fin Según
             Mientras (opcion != 0)
         Fin
 
@@ -26,21 +26,44 @@
                 Leer ID de envio sin asignar
             Mientras(ValidarIDEnvioSinAsignar * sea falso)
 
+            ObtenerIDAlmacenPreferido *
+
             ComprobarCabeAlmacen (AlmacenPreferido) *
             Si (envio cabe en almacen preferido)
                 AsignarEnvioAlmacen (AlmacenPreferido)
             Sino
-                Mientras 
-
+                Mientras
+                    ObtenerListadoAlmacenesPorDistancia *
+                    Si (hay almacenes)
+                        Mientras (haya almacenes y no haya aceptado un almacén)
+                            ComprobarCabeAlmacen(IDAlmacen)
+                            Si (cabe en almacén)
+                                Preguntar si desea aceptar ese almacén
+                                Leer respuesta
+                            Fin Si
+                        Fin Mientras
+                        Si (ha elegido algún almacén)
+                            AsignarEnvioAlmacen(Almacen)
+                        Si no
+                            Mostrar mensaje de que no se ha asignado
+                        Fin Si
+                    Si no
+                        Mostrar mensaje no hay almacenes
+                    Fin Si
                 Fin Mientras
             Fin Si
         Fin
+ */
+
+/*
+    Preguntar a Leo por cómo hacer las conexiones y las ? de obtenerListadoAlmacenesPorDistancia
  */
 
 import java.sql.SQLException;
 import java.util.Scanner;
 
 import Gestoras.GestoraEnvios;
+import Gestoras.GestoraFormularios;
 import Gestoras.GestoraMenus;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +73,8 @@ public class Almacenes
     public static void main(String[] args)
     {
         GestoraEnvios gestoraEnvios = null;
-        try {
+        try
+        {
             gestoraEnvios = new GestoraEnvios();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +103,7 @@ public class Almacenes
                 case 2:
             {
                 try {
-                    gestoraEnvios.agregarEnvioFormulario();
+                    GestoraFormularios.agregarEnvioFormulario();
                 } catch (SQLException ex) {
                     ex.getMessage();
                 }
@@ -87,7 +111,11 @@ public class Almacenes
                     break;
 
                 case 3:
-                    System.out.println("En construccion");
+                    try {
+                        GestoraFormularios.asignarEnvioFormulario();
+                    } catch (SQLException ex) {
+                        ex.getMessage();
+                    }
                     break;
             }
 
