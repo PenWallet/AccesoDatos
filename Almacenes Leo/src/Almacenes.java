@@ -41,10 +41,11 @@
                                 Preguntar si desea aceptar ese almacén
                                 Leer respuesta
                             Fin Si
+                            Si (desea aceptar ese almacén)
+                                AsignarEnvioAlmacen(Almacén)
+                            Fin Si
                         Fin Mientras
-                        Si (ha elegido algún almacén)
-                            AsignarEnvioAlmacen(Almacen)
-                        Si no
+                        Si (no ha elegido ningún almacén)
                             Mostrar mensaje de que no se ha asignado
                         Fin Si
                     Si no
@@ -65,8 +66,6 @@ import java.util.Scanner;
 import Gestoras.GestoraEnvios;
 import Gestoras.GestoraFormularios;
 import Gestoras.GestoraMenus;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Almacenes
 {

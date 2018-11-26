@@ -10,12 +10,15 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class GestoraEnvios {
+    /*
+        ***********************************************************************************
+        ********************************* C O N E X I O N *********************************
+        ***********************************************************************************
+    */
     private Connection conexion;
-
     public GestoraEnvios() throws SQLException {
         conexion = GeneradorConexiones.getConexion();
     }
-
     public ResultSet ejecutarQuery(String sentenciaSQL) {
         ResultSet resultado;
         Statement sentencia;
@@ -29,8 +32,12 @@ public class GestoraEnvios {
         return resultado;
     }
 
-    //Mostrar Envios Asignados
 
+    /*
+       ***********************************************************************************
+       ********************************** F U N C I O N E S ******************************
+       ***********************************************************************************
+    */
     public void obtenerEnviosAsignados(){
         String sentencia = "SELECT A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL ORDER BY FechaAsignacion";
         ResultSet rs = ejecutarQuery(sentencia);
@@ -47,26 +54,21 @@ public class GestoraEnvios {
         }
     }
 
-
-    //Agregar Envio
-
-    public boolean validarIdAlmacen(int idAlmacen) throws SQLException{
-        boolean existe = false;
-        String sql = "SELECT dbo.fnValidarIdAlmacen(?) AS ret";
+    public boolean validarIdEnvioSinAsignar(int idEnvio) throws SQLException {
+        boolean valido = false;
+        String sql = "SELECT dbo.fnValidarIdEnvioSinAsignar(?) AS ret";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, idAlmacen);
+        sentencia.setInt(1, idEnvio);
         ResultSet rs = sentencia.executeQuery();
 
         if(rs!=null)
         {
             rs.next();
-            existe = rs.getBoolean("ret");
+            valido = rs.getBoolean("ret");
         }
 
-        return existe;
+        return valido;
     }
-
-
 
     public boolean agregarEnvio(int idAlmacen, int nContenedores) throws SQLException
     {
@@ -90,25 +92,6 @@ public class GestoraEnvios {
         return creado;
     }
 
-    public void mostrarAlmacenes(){
-        String sql = "SELECT * FROM Almacenes";
-        ResultSet rs = ejecutarQuery(sql);
-        if(rs!=null)
-        {
-            try
-            {
-                while(rs.next())
-                {
-                    System.out.println(rs.getInt("ID") + " | " + rs.getString("Denominacion") + " | " + rs.getString("Direccion") + " | " + rs.getInt("Capacidad"));
-                    System.out.println("");
-                }
-            }catch(SQLException e) { e.printStackTrace(); }
-        }
-    }
-
-
-    //Asignar Envios
-
     public void mostrarEnviosSinAsignar(){
         String sql = "SELECT E.ID, E.NumeroContenedores, E.FechaCreacion, A.Denominacion FROM Envios AS E INNER JOIN Almacenes AS A ON E.AlmacenPreferido = A.ID WHERE FechaAsignacion IS NULL ORDER BY ID";
         ResultSet rs = ejecutarQuery(sql);
@@ -123,36 +106,6 @@ public class GestoraEnvios {
                 }
             }catch(SQLException e) { e.printStackTrace(); }
         }
-    }
-
-    public boolean validarIdEnvioSinAsignar(int idEnvio) throws SQLException {
-        boolean valido = false;
-        String sql = "SELECT dbo.fnValidarIdEnvioSinAsignar(?) AS ret";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, idEnvio);
-        ResultSet rs = sentencia.executeQuery();
-
-        if(rs!=null)
-        {
-            rs.next();
-            valido = rs.getBoolean("ret");
-        }
-
-        return valido;
-    }
-
-    public ResultSet obtenerListadoAlmacenesPorDistancia(int idAlmacen) throws SQLException {
-        String sql = "SELECT * FROM Almacenes AS A INNER JOIN Distancias AS D ON A.ID = D.IDAlmacen1 AND IDAlmacen2 = "+idAlmacen+" WHERE A.ID < "+idAlmacen+" UNION SELECT * FROM Almacenes AS A INNER JOIN Distancias AS D ON D.IDAlmacen1 = "+idAlmacen+" AND A.ID = D.IDAlmacen2 WHERE A.ID > "+idAlmacen;
-
-        /*PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, idAlmacen);
-        sentencia.setInt(2, idAlmacen);
-        sentencia.setInt(3, idAlmacen);
-        sentencia.setInt(4, idAlmacen);*/
-
-        ResultSet rs = ejecutarQuery(sql);
-
-        return rs;
     }
 
     public boolean asignarEnvioAlmacen(int idEnvio, int idAlmacen) throws SQLException
@@ -185,40 +138,7 @@ public class GestoraEnvios {
         return asignado;
     }
 
-    public boolean cabePedidoEnAlmacen(int idAlmacen, int idEnvio) throws SQLException{
-        boolean cabe = false;
-        String sql = "SELECT dbo.fnCabePedidoEnAlmacen(?, ?) AS ret";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
 
-        sentencia.setInt(1, idAlmacen);
-        sentencia.setInt(2, idEnvio);
-
-        ResultSet rs = sentencia.executeQuery();
-
-        if(rs != null)
-        {
-            rs.next();
-            cabe = rs.getBoolean("ret");
-        }
-
-        return cabe;
-    }
-
-    public int obtenerIdAlmacenPreferido(int idEnvio) throws SQLException{
-        int idAlmacen = 0;
-
-        String sql = "SELECT AlmacenPreferido FROM Envios WHERE ID = ?";
-        PreparedStatement sentencia = conexion.prepareStatement(sql);
-        sentencia.setInt(1, idEnvio);
-        ResultSet rs = sentencia.executeQuery();
-        if(rs != null)
-        {
-            rs.next();
-            idAlmacen = rs.getInt("AlmacenPreferido");
-        }
-
-        return idAlmacen;
-    }
 
 
     
