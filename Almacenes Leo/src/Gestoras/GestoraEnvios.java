@@ -39,7 +39,7 @@ public class GestoraEnvios {
        ***********************************************************************************
     */
     public void obtenerEnviosAsignados(){
-        String sentencia = "SELECT A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL ORDER BY FechaAsignacion";
+        String sentencia = "SELECT E.ID, A.Denominacion, E.FechaAsignacion, E.NumeroContenedores FROM Envios AS E INNER JOIN Asignaciones AS ASI ON E.ID = ASI.IDEnvio INNER JOIN Almacenes AS A  ON ASI.IDAlmacen = A.ID WHERE FechaAsignacion IS NOT NULL ORDER BY FechaAsignacion, E.ID";
         ResultSet rs = ejecutarQuery(sentencia);
         if(rs!=null)
         {
@@ -70,10 +70,32 @@ public class GestoraEnvios {
         return valido;
     }
 
+    //EXAMEN: Ejemplo de Insert con ResultSet
     public boolean agregarEnvio(int idAlmacen, int nContenedores) throws SQLException
     {
+        boolean creado = false;
+        LocalDate date = LocalDate.now();
+        String sql = "SELECT ID, NumeroContenedores, FechaCreacion, AlmacenPreferido FROM Envios";
+        Statement sentencia = conexion.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = sentencia.executeQuery(sql);
+
+        rs.moveToInsertRow();
+        rs.updateInt("NumeroContenedores", nContenedores);
+        rs.updateDate("FechaCreacion", java.sql.Date.valueOf(date));
+        rs.updateInt("AlmacenPreferido", idAlmacen);
+        rs.insertRow();
+        rs.moveToCurrentRow();
+
+        creado = true;
+
+        return creado; //Tiene razón
+
+        /*
         boolean creado;
         int filasAfectadas;
+        //Somos putos dioses del olimpo
+        //¿Has visto un semidios?
         LocalDate date = LocalDate.now();
         String sql = "INSERT INTO Envios(NumeroContenedores, FechaCreacion, AlmacenPreferido) VALUES (?, ?, ?)";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -88,8 +110,7 @@ public class GestoraEnvios {
             creado = true;
         }else
             creado = false;
-
-        return creado;
+        */
     }
 
     public void mostrarEnviosSinAsignar(){
@@ -108,12 +129,14 @@ public class GestoraEnvios {
         }
     }
 
+    //EXAMEN: Ejemplo de Update con ResultSet y de Insert normal
     public boolean asignarEnvioAlmacen(int idEnvio, int idAlmacen) throws SQLException
     {
         boolean asignado = false, insertValido, updateValido;
         LocalDate date = LocalDate.now();
         String sql = "INSERT INTO Asignaciones(IDEnvio, IDAlmacen) VALUES (?, ?)";
         PreparedStatement sentencia = conexion.prepareStatement(sql);
+        boolean filaEncontrada = false;
 
         sentencia.setInt(1, idEnvio);
         sentencia.setInt(2, idAlmacen);
@@ -121,7 +144,19 @@ public class GestoraEnvios {
         //Esto comprueba si el resultado es 1, y si sí, manda true
         insertValido =  sentencia.executeUpdate() == 1;
 
-        sql = "UPDATE Envios SET FechaAsignacion = ? WHERE ID = ?";
+        sql = "SELECT ID, FechaAsignacion FROM Envios";
+        Statement sentencia2 = conexion.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+            ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = sentencia2.executeQuery(sql);
+        while(rs.next() && !filaEncontrada){
+            if (rs.getInt("ID") == idEnvio) {
+                filaEncontrada = true;
+                rs.updateDate("FechaAsignacion", java.sql.Date.valueOf(date));
+                rs.updateRow();
+            }
+        }
+
+       /*sql = "UPDATE Envios SET FechaAsignacion = ? WHERE ID = ?";
         sentencia = conexion.prepareStatement(sql);
 
         sentencia.setDate(1, java.sql.Date.valueOf(date));
@@ -129,8 +164,14 @@ public class GestoraEnvios {
 
         //Esto comprueba si el resultado es 1, y si sí, manda true
         updateValido = sentencia.executeUpdate() == 1;
+        if (insertValido && filaEncontrada){
+            asignado = true;
+        }else
+            asignado = false;
+        return asignado;
+           */
 
-        if (insertValido && updateValido){
+        if (insertValido && filaEncontrada){
             asignado = true;
         }else
             asignado = false;
