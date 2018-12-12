@@ -12,12 +12,18 @@ import java.sql.SQLException;
 public class GestionContenido extends DefaultHandler {
 
     private String elementoActual;
-    private String autor = "", titulo = "", formato = "", localizacion = "";
+    private String autor, titulo, formato, localizacion;
     private GestoraDiscos gestoraDiscos;
-    private boolean esStartElement, agregado;
+    private boolean esStartElement;
 
-    public GestionContenido() {
-        super();
+    public GestionContenido() throws SQLException {
+        this.elementoActual = "";
+        this.autor = "";
+        this.titulo = "";
+        this.formato = "";
+        this.localizacion = "";
+        this.gestoraDiscos = new GestoraDiscos();
+        this.esStartElement = true;
     }
     @Override
     public void startDocument(){
@@ -36,10 +42,11 @@ public class GestionContenido extends DefaultHandler {
     public void endElement(String uri, String nombre, String nombreC)
     {
         esStartElement = false;
+        boolean agregado;
+
         if(nombre.equals("album"))
         {
             try {
-                gestoraDiscos = new GestoraDiscos();
                 Disco disco = new Disco(autor, titulo, formato, localizacion);
                 agregado = gestoraDiscos.agregarDisco(disco);
                 if(agregado)
@@ -49,7 +56,7 @@ public class GestionContenido extends DefaultHandler {
                 }
                 else
                 {
-                    System.out.println("Algo fue mal :(");
+                    System.out.println("Algo fue mal :( very important ofc");
                     limpiarDatosDisco();
                 }
             } catch (SQLException e) { e.printStackTrace(); }

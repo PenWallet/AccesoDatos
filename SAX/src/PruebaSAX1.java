@@ -4,6 +4,7 @@
  */
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.*;
@@ -18,7 +19,11 @@ public class PruebaSAX1 {
         } catch (SAXException ex) {
             Logger.getLogger(PruebaSAX1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gestor = new GestionContenido();
+        try {
+            gestor = new GestionContenido();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         procesadorXML.setContentHandler(gestor);
         archivoXML = new InputSource(nombreArchivo);
     }

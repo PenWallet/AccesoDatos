@@ -3,7 +3,7 @@ package Gestoras;
 import Clases.Disco;
 import Conexion.*;
 import java.sql.*;
-import java.time.LocalDate;
+
 
 public class GestoraDiscos
 {
@@ -37,7 +37,6 @@ public class GestoraDiscos
      ********************************** F U N C I O N E S ******************************
      ***********************************************************************************
      */
-    //EXAMEN: Ejemplo de Insert con ResultSet
     public boolean agregarDisco(Disco disco) throws SQLException
     {
         boolean creado = false;
