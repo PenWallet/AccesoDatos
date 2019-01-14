@@ -1,6 +1,6 @@
 package Clases;
 
-//MÃ¡s que nada se usa para guardar quÃ© productos alternativos se van a introducir al final
+//Más que nada se usa para guardar qué productos alternativos se van a introducir al final
 public class Producto {
     private int posicionAbsolutaProdOrig;
     private int IDAlternativa;

@@ -34,8 +34,8 @@ public class GestoraPedidos {
     }
 
     /**
-     * FunciÃ³n que devuelve un ResultSet actualizable con todos los pedidos sin atender con toda su informaciÃ³n
-     * Privado porque se usa en el constructor de GestoraPedidos Ãºnicamente, y se trabaja con ese
+     * Función que devuelve un ResultSet actualizable con todos los pedidos sin atender con toda su información
+     * Privado porque se usa en el constructor de GestoraPedidos únicamente, y se trabaja con ese
      * @return ResultSet
      */
     private ResultSet obtenerPedidosSinAtender()
@@ -53,10 +53,10 @@ public class GestoraPedidos {
     }
 
     /**
-     * FunciÃ³n que muestra en pantalla los pedidos sin atender usando el ResultSet de pedidosSinAtender y
-     * devuelvuen el nÃºmero de filas que hay en el ResultSet (es decir, el nÃºmero de pedidos
+     * Función que muestra en pantalla los pedidos sin atender usando el ResultSet de pedidosSinAtender y
+     * devuelvuen el número de filas que hay en el ResultSet (es decir, el número de pedidos
      * sin atender)
-     * @return NÃºmero de pedidos sin atender
+     * @return Número de pedidos sin atender
      */
     public int mostrarListaPedidosSinAtender()
     {
@@ -77,7 +77,7 @@ public class GestoraPedidos {
     }
 
     /**
-     * FunciÃ³n que actualiza:
+     * Función que actualiza:
      *  - La FechaServido del pedido
      *  - Actualiza y agrega los productos a LineasPedidos
      *  - Actualiza el stock disponible de los productos
@@ -94,7 +94,7 @@ public class GestoraPedidos {
         ResultSet rsActStock;
         GestoraProductos gp = new GestoraProductos();
 
-        //Actualizar la fecha del envÃ­o
+        //Actualizar la fecha del envío
         pedidosSinAtender.absolute(posicionAbsolutaEnvio);
         pedidosSinAtender.updateDate("FechaServido", java.sql.Date.valueOf(LocalDate.now()));
         pedidosSinAtender.updateRow();
@@ -106,11 +106,11 @@ public class GestoraPedidos {
         //Actualizar y agregar los productos a LineasPedidos
         if(listaProdAlt.size() != 0)
         {
-            for(int i = 1; i <= listaProdAlt.size(); i++)
+            for(int i = 0; i < listaProdAlt.size(); i++)
             {
                 prodAlt = listaProdAlt.get(i);
 
-                //Actualizar la cantidad pedida de los productos originales de los que no habÃ­a suficiente
+                //Actualizar la cantidad pedida de los productos originales de los que no había suficiente
                 productosPedido.absolute(prodAlt.getPosicionAbsolutaProdOrig());
                 productosPedido.updateInt("Cantidad", prodAlt.getCantidadOrig());
                 productosPedido.updateRow();
@@ -120,6 +120,7 @@ public class GestoraPedidos {
                 productosPedido.updateInt("IDPedido", IDPedido);
                 productosPedido.updateInt("Cantidad", prodAlt.getCantidadAlt());
                 productosPedido.updateInt("IDProducto", prodAlt.getIDAlternativa());
+                productosPedido.updateInt("Precio", 1);
                 productosPedido.insertRow();
             }
         }
@@ -140,9 +141,9 @@ public class GestoraPedidos {
     }
 
     /**
-     * FunciÃ³n que va a comprobar si se dispone de stock, preguntar al usuario, etc. dependiendo
-     * de la posiciÃ³n absoluta del pedido en el ResultSet pedidosSinAtender
-     * @param posicionAbsoluta NÃºmero de la fila del pedido en el ResultSet pedidosSinAtender
+     * Función que va a comprobar si se dispone de stock, preguntar al usuario, etc. dependiendo
+     * de la posición absoluta del pedido en el ResultSet pedidosSinAtender
+     * @param posicionAbsoluta Número de la fila del pedido en el ResultSet pedidosSinAtender
      */
     public void atenderPedido(int posicionAbsoluta) throws SQLException
     {
@@ -174,7 +175,7 @@ public class GestoraPedidos {
                 if(!stockSuficiente)
                 {
                     productoOriginal.next();
-                    System.out.println("Â¡Lo sentimos! No hay suficiente stock de "+productoOriginal.getString("Nombre")+". Usted ha pedido "+cantidadProducto+" y solo tenemos "+productoOriginal.getInt("Stock")+" disponible");
+                    System.out.println("¡Lo sentimos! No hay suficiente stock de "+productoOriginal.getString("Nombre")+". Usted ha pedido "+cantidadProducto+" y solo tenemos "+productoOriginal.getInt("Stock")+" disponible");
                     System.out.println("Comprobando si hay establecido un producto sustitutivo...");
                     IDProductoAlt = productoOriginal.getInt("Sustitutivo");
 
@@ -182,18 +183,18 @@ public class GestoraPedidos {
                     if(IDProductoAlt == 0)
                     {
                         pedidoIrrealizable = true;
-                        System.out.println("Â¡No se ha encontrado producto sustitutivo para este producto! No se puede atender el pedido. Nos vemo loco");
+                        System.out.println("¡No se ha encontrado producto sustitutivo para este producto! No se puede atender el pedido. Nos vemo loco");
                     }
-                    else //Si sÃ­ hay producto alternativo
+                    else //Si sí hay producto alternativo
                     {
                         productoAlt = gp.obtenerFilaProducto(IDProductoAlt);
                         productoAlt.next();
                         do
                         {
-                            System.out.println("Â¿Desea comprobar si hay suficiente stock de "+productoAlt.getString("Nombre")+" para rellenar ese pedido? (Y/N)");
+                            System.out.println("¿Desea comprobar si hay suficiente stock de "+productoAlt.getString("Nombre")+" para rellenar ese pedido? (Y/N)");
                             respuesta = Character.toUpperCase(teclado.next().charAt(0));
                             if(respuesta != 'Y' && respuesta != 'N')
-                                System.out.println("Â¡Solo Y o N!");
+                                System.out.println("¡Solo Y o N!");
                         }while(respuesta != 'Y' && respuesta != 'N');
 
                         //Si se quiere comprobar si hay stock del producto alternativo
@@ -205,13 +206,13 @@ public class GestoraPedidos {
                             //Si hay stock suficiente del producto alternativo
                             if(stockSuficienteAlt)
                             {
-                                System.out.println("Â¡Hay suficientes "+productoAlt.getString("Nombre")+"!");
+                                System.out.println("¡Hay suficientes "+productoAlt.getString("Nombre")+"!");
                                 listaProdAlt.add(new Producto(productosPedido.getRow(), IDProductoAlt, cantidadProducto, cantidadProductoAlt));
                             }
                             else //Si no hay stock suficiente del producto alternativo
                             {
                                 pedidoIrrealizable = true;
-                                System.out.println("Â¡Lo sentimos, no hay suficiente stock de "+productoAlt.getString("Nombre")+", no se puede agregar el envÃ­o. Bye bye.");
+                                System.out.println("¡Lo sentimos, no hay suficiente stock de "+productoAlt.getString("Nombre")+", no se puede agregar el envío. Bye bye.");
                             }
                         }
                         else //Si no se quiere comprobar si hay stock del producto alternativo
@@ -224,7 +225,7 @@ public class GestoraPedidos {
                 else
                 {
                     productoOriginal.next();
-                    System.out.println("Â¡Hay suficiente stock de "+productoOriginal.getString("Nombre")+"!");
+                    System.out.println("¡Hay suficiente stock de "+productoOriginal.getString("Nombre")+"!");
                     System.out.println("Comprobando el siguiente producto...");
                 }
             }
@@ -233,7 +234,7 @@ public class GestoraPedidos {
         if(!pedidoIrrealizable)
         {
             if(finiquitarPedido(posicionAbsoluta, productosPedido, listaProdAlt))
-                System.out.println("Â¡Se ha actualizado correctamente el pedido!");
+                System.out.println("¡Se ha actualizado correctamente el pedido!");
             else
                 System.out.println("Algo fue mal :(");
         }

@@ -16,18 +16,18 @@ public class GestoraFormularios {
 
         numeroPedidos = gPe.mostrarListaPedidosSinAtender();
 
-        //El programa continuarÃ¡ en caso de que haya pedidos que atender
+        //El programa continuará en caso de que haya pedidos que atender
         if(numeroPedidos > 0)
         {
             do
             {
-                System.out.println("Elija el nÃºmero del pedido que quiera (posiciÃ³n) o 0 para salir:");
+                System.out.println("Elija el número del pedido que quiera (posición) o 0 para salir:");
                 pedidoElegido = teclado.nextInt();
                 if(pedidoElegido < 0 || pedidoElegido > numeroPedidos)
-                    System.out.println("Â¡Escribe un nÃºmero entre 1 y "+numeroPedidos+", o 0 para salir!");
+                    System.out.println("¡Escribe un número entre 1 y "+numeroPedidos+", o 0 para salir!");
             }while(pedidoElegido < 0 || pedidoElegido > numeroPedidos);
 
-            //Continuaremos con el programa si ha elegido un nÃºmero distinto de 0
+            //Continuaremos con el programa si ha elegido un número distinto de 0
             if(pedidoElegido != 0)
             {
                 gPe.atenderPedido(pedidoElegido);
@@ -36,6 +36,6 @@ public class GestoraFormularios {
                 System.out.println("Taluego Lucas");
         }
         else
-            System.out.println("Â¡No hay pedidos para mostrar!");
+            System.out.println("¡No hay pedidos para mostrar!");
     }
 }

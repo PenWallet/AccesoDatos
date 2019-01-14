@@ -12,7 +12,7 @@ public class GestoraProductos
     }
 
     /**
-     * Funci贸n que devuelve true si hay disponible la suficiente cantidad del producto introducido, y false en caso contrario
+     * Funci髇 que devuelve true si hay disponible la suficiente cantidad del producto introducido, y false en caso contrario
      * @param idProducto ID del producto
      * @param cantidad Cantidad del producto
      * @return True si hay suficiente, false si no
@@ -37,7 +37,7 @@ public class GestoraProductos
     }
 
     /**
-     * Funci贸n que devuelve un ResultSet con los productos que hay pedidos en un pedido espec铆fico
+     * Funci髇 que devuelve un ResultSet con los productos que hay pedidos en un pedido espec韋ico
      * @param IDPedido ID del Pedido
      * @return ResultSet
      */
@@ -72,7 +72,7 @@ public class GestoraProductos
     }
 
     /**
-     * Funci贸n que devuelve la ID del producto alternativo de un producto
+     * Funci髇 que devuelve la ID del producto alternativo de un producto
      * @param IDProducto ID del Producto
      * @return ID del Producto alternativo
      */
@@ -99,7 +99,7 @@ public class GestoraProductos
     }
 
     /**
-     * Funci贸n que devuelve un ResultSet con el nombre del producto
+     * Funci髇 que devuelve un ResultSet con el nombre del producto
      * @param IDProducto
      * @return
      */
