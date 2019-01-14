@@ -10,9 +10,15 @@ CREATE TABLE Eventos (
 	Imagen varchar(100),
 	FechaInicio date NOT NULL,
 	FechaFin date NOT NULL,
+	LatitudInicial decimal(5,2) NOT NULL,
+	LongitudInicial decimal(5,2) NOT NULL,
+	LatitudFinal decimal(5,2),
+	LongitudFinal decimal(5,2),
+	Tipo varchar(14) NOT NULL,
 	Prioridad int DEFAULT 1 NOT NULL,
 	CONSTRAINT PK_Eventos PRIMARY KEY (ID),
-	CONSTRAINT CHK_Eventos_FechaFinLargerOrEqualToFechaInicio CHECK (FechaFin >= FechaInicio)
+	CONSTRAINT CHK_Eventos_FechaFinLargerOrEqualToFechaInicio CHECK (FechaFin >= FechaInicio),
+	CONSTRAINT CHK_Eventos_TipoIsAValidType CHECK (Tipo IN ('Navegando', 'Escala', 'Acontecimiento'))
 )
 
 CREATE TABLE Descripciones (
