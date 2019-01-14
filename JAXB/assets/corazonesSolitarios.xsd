@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="Corazoncitos">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Persona"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Persona">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ID"/>
+                <xs:element ref="nombre"/>
+                <xs:element ref="sexo"/>
+                <xs:element ref="sexoBuscado"/>
+                <xs:element ref="fechaNacimiento"/>
+                <xs:element ref="ingresos"/>
+                <xs:element ref="Preferencias"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ID" type="xs:integer"/>
+    <xs:element name="nombre" type="xs:string"/>
+    <xs:element name="sexo" type="xs:NCName"/>
+    <xs:element name="sexoBuscado" type="xs:NCName"/>
+    <xs:element name="fechaNacimiento" type="xs:NMTOKEN"/>
+    <xs:element name="ingresos" type="xs:decimal"/>
+    <xs:element name="Preferencias">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="Gusto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Gusto">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Descripcion"/>
+                <xs:element ref="Valor"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Descripcion" type="xs:string"/>
+    <xs:element name="Valor" type="xs:integer"/>
+</xs:schema>
