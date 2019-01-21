@@ -16,6 +16,7 @@ CREATE TABLE Eventos (
 	LongitudFinal decimal(5,2),
 	Tipo varchar(14) NOT NULL,
 	Prioridad int DEFAULT 1 NOT NULL,
+	FechaRevisado date NULL,
 	CONSTRAINT PK_Eventos PRIMARY KEY (ID),
 	CONSTRAINT CHK_Eventos_FechaFinLargerOrEqualToFechaInicio CHECK (FechaFin >= FechaInicio),
 	CONSTRAINT CHK_Eventos_TipoIsAValidType CHECK (Tipo IN ('Navegando', 'Escala', 'Acontecimiento'))
