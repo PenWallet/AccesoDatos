@@ -1,27 +1,12 @@
-<?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="connection.url">jdbc:sqlserver://localhost;database=PennyFlama</property>
-        <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <mapping class="Hibernate.CategoriasEntity"/>
-        <mapping resource="Hibernate/CategoriasEntity.hbm.xml"/>
-        <mapping class="Hibernate.ClientesEntity"/>
-        <mapping resource="Hibernate/ClientesEntity.hbm.xml"/>
-        <mapping class="Hibernate.LineasDePedidoEntity"/>
-        <mapping resource="Hibernate/LineasDePedidoEntity.hbm.xml"/>
-        <mapping class="Hibernate.PedidosEntity"/>
-        <mapping resource="Hibernate/PedidosEntity.hbm.xml"/>
-        <mapping class="Hibernate.ProductosEntity"/>
-        <mapping resource="Hibernate/ProductosEntity.hbm.xml"/>
-        <mapping class="Hibernate.VendedoresEntity"/>
-        <mapping resource="Hibernate/VendedoresEntity.hbm.xml"/>
-        <!-- <property name="connection.username"/> -->
-        <!-- <property name="connection.password"/> -->
-
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hbm2ddl.auto">update</property> -->
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=Ejemplos</property>
+    <property name="hibernate.connection.username">prueba2</property>
+    <property name="hibernate.connection.password">123qweasd!</property>
+    <mapping class="entidades.CriaturitaConRegalos"/>
+    <mapping class="entidades.RegaloParaCriaturitaConRegalos"/>
+  </session-factory>
 </hibernate-configuration>
