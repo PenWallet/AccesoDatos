@@ -5,7 +5,9 @@
  */
 package hibernate;
 
+import gestoras.GestoraDeTo;
 import gestoras.GestoraMenus;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -34,39 +36,39 @@ public class Hibernate {
             switch(opcion)
             {
                 case 1:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.listarTodasLasCriaturitas();
                     break;
                     
                 case 2:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.listarTodosLosRegalos();
                     break;
                     
                 case 3:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.recuperarCriaturitaConRegalos();
                     break;
                     
                 case 4:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.quitarRegaloDeCriaturita();
                     break;
                     
                 case 5:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.asignarRegaloACriaturita();
                     break;
                     
                 case 6:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.crearUnaNuevaCriaturita();
                     break;
                     
                 case 7:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.crearUnNuevoRegalo();
                     break;
                     
                 case 8:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.borrarUnRegalo();
                     break;
                     
                 case 9:
-                    System.out.println("En construction, "+opcion);
+                    GestoraDeTo.borrarUnaCriaturitaYSusRegalos();
                     break;
             }
         }while (opcion != 0);

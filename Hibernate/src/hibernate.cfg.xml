@@ -8,5 +8,7 @@
     <property name="hibernate.connection.password">123qweasd!</property>
     <mapping class="entidades.CriaturitaConRegalos"/>
     <mapping class="entidades.RegaloParaCriaturitaConRegalos"/>
+    <mapping class="entidades.Criaturita"/>
+    <mapping class="entidades.Regalo"/>
   </session-factory>
 </hibernate-configuration>
