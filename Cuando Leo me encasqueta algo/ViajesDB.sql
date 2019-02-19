@@ -5,7 +5,6 @@ GO
 
 SET DATEFORMAT dmy
 
--- Contraseña para profesores
 CREATE TABLE Eventos (
 	ID int IDENTITY(1,1) NOT NULL,
 	Imagen varchar(100),
