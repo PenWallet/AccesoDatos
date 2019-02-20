@@ -2,6 +2,7 @@ package gestoras;
 
 import entidades.*;
 import hibernateutil.HibernateUtil;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.hibernate.Query;
@@ -185,12 +186,71 @@ public class GestoraDeTo {
     
     public static void crearUnaNuevaCriaturita()
     {
-        System.out.println("Crear una nueva criaturita");
+        Scanner scannerS = new Scanner(System.in);
+        String nombre;
+        
+        System.out.println("\nIntroduce el nombre de la nueva criaturita:");
+        nombre = scannerS.nextLine();
+        
+        byte ID = (byte)session.createQuery("SELECT MAX(id) FROM entidades.Criaturita").uniqueResult();
+        ID++;
+        
+        Criaturita criaturita = new Criaturita(ID, nombre);
+        
+        session.beginTransaction();
+        session.save(criaturita);
+        session.getTransaction().commit();
     }
     
     public static void crearUnNuevoRegalo()
     {
-        System.out.println("Crear un nuevo regalo");
+        Scanner scanner = new Scanner(System.in);
+        Scanner scannerS = new Scanner(System.in);
+        String denominacion;
+        int ancho, largo, alto, edadMinima, ID;
+        char tipo;
+        BigDecimal precio;
+        
+        ID = (byte)session.createQuery("SELECT MAX(id) FROM entidades.Regalo").uniqueResult();
+        ID++;
+        
+        System.out.println("Introduce el nombre del regalo:");
+        denominacion = scannerS.nextLine();
+        
+        do
+        {
+            System.out.println("Introduce el ancho");
+            ancho = scanner.nextInt();
+        }while(ancho <= 0);
+        
+        do
+        {
+            System.out.println("Introduce el largo");
+            largo = scanner.nextInt();
+        }while(largo <= 0);
+        
+        do
+        {
+            System.out.println("Introduce el alto");
+            alto = scanner.nextInt();
+        }while(alto <= 0);
+        
+        System.out.println("Introduce el tipo (carácter)");
+        tipo = scannerS.next().charAt(0);
+        
+        do
+        {
+            System.out.println("Introduce la edad mínima");
+            edadMinima = scanner.nextInt();
+        }while(alto < 0);
+        
+        do
+        {
+            System.out.println("Introduce el precio");
+            precio = BigDecimal.valueOf(scanner.nextDouble());
+        }while(precio.doubleValue() <= 0);
+        
+        
     }
     
     public static void borrarUnRegalo()
