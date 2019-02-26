@@ -10,5 +10,6 @@
     <mapping class="entidades.RegaloParaCriaturitaConRegalos"/>
     <mapping class="entidades.Criaturita"/>
     <mapping class="entidades.Regalo"/>
+    <mapping class="entidades.Cuento"/>
   </session-factory>
 </hibernate-configuration>

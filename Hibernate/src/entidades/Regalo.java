@@ -47,6 +47,18 @@ public class Regalo implements Serializable {
     public Regalo() {
     }
     
+    public Regalo(int id, String denominacion, int ancho, int largo, int alto, char tipo, int edadMinima, BigDecimal precio)
+    {
+        this.id = id;
+        this.denominacion = denominacion;
+        this.ancho = ancho;
+        this.largo = largo;
+        this.alto = alto;
+        this.tipo = tipo;
+        this.edadMinima = edadMinima;
+        this.precio = precio;
+    }
+    
     public int getId() {
         return id;
     }
