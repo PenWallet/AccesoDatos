@@ -504,8 +504,67 @@ public class GestoraDeTo {
     
     public static void asignarCuentoACriaturita()
     {
-        //TODO
-        System.out.println("Asignar cuento");
+        Scanner scanner = new Scanner(System.in);
+        String hqlQuery = "FROM entidades.Cuento";
+        String hqlQueryCriaturita = "FROM entidades.CriaturitaConRegalos";
+        Query query = session.createQuery(hqlQuery);
+        Query queryCriaturitas = session.createQuery(hqlQueryCriaturita);
+        ArrayList<Cuento> listado = new ArrayList<>(query.list());
+        ArrayList<CriaturitaConRegalos> listadoCriaturitas = new ArrayList<>(queryCriaturitas.list());
+        int idCuento, idCriaturita;
+        
+        if(!listado.isEmpty() && !listadoCriaturitas.isEmpty())
+        {
+            for(int i = 0; i < listado.size(); i++)
+                System.out.println((i+1)+". "+listado.get(i).getTitulo()+", de "+listado.get(i).getAutor()+". Tema: "+listado.get(i).getTema());
+            
+            do
+            {
+                System.out.println("Introduce el número del libro que quieres asignar (o 0 para salir):");
+                idCuento = scanner.nextInt();
+            }while(idCuento < 0 || idCuento > listado.size());
+            
+            if(idCuento != 0)
+            {
+                for(int i = 0; i < listadoCriaturitas.size(); i++)
+                    System.out.println((i+1)+". "+listadoCriaturitas.get(i).getNombre());
+                
+                do
+                {
+                    System.out.println("Introduce el número del criaturita que quieres asignar (o 0 para salir):");
+                    idCriaturita = scanner.nextInt();
+                }while(idCriaturita < 0 || idCriaturita > listado.size());
+                
+                if(idCriaturita != 0)
+                {
+                    Cuento cuento = listado.get(idCuento - 1);
+                    CriaturitaConRegalos criaturita = listadoCriaturitas.get(idCriaturita - 1);
+                    
+                    if(cuento.getListaLectores().contains(criaturita) || criaturita.getListaCuentos().contains(cuento))
+                        System.out.println("Esta criaturita ya lee este libro");
+                    else
+                    {
+                        session.beginTransaction();
+                    
+                        cuento.getListaLectores().add(criaturita);
+                        criaturita.getListaCuentos().add(cuento);
+
+                        session.getTransaction().commit();
+                        System.out.println("El libro se ha asignado :D");
+                    }
+                    
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {}
+                }
+            }
+        }
+        else
+            System.out.println("No hay cuentos o criaturitas, sry :(");
+        
+        
+        
+        
     }
     
     public static void crearUnNuevoCuento()
